@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CyberShield AI — Scan Report</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    /* Result-specific: large centered score reveal */
+    .cs-result-hero {
+      text-align: center;
+      padding: 32px 0 20px;
+    }
+
+    .cs-result-score-ring {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      border: 3px solid var(--neon);
+      box-shadow:
+        0 0 0 6px rgba(0,255,136,.08),
+        0 0 40px rgba(0,255,136,.25),
+        inset 0 0 30px rgba(0,255,136,.05);
+      background: radial-gradient(circle, rgba(0,40,20,.8), rgba(0,10,5,.9));
+      margin-bottom: 18px;
+      animation: pulse 3s ease-in-out infinite;
+      position: relative;
+    }
+
+    .cs-result-score-ring--danger {
+      border-color: var(--red);
+      box-shadow:
+        0 0 0 6px rgba(255,60,60,.08),
+        0 0 40px rgba(255,60,60,.25),
+        inset 0 0 30px rgba(255,60,60,.05);
+    }
+
+    .cs-result-score-ring--medium {
+      border-color: var(--amber);
+      box-shadow:
+        0 0 0 6px rgba(255,170,0,.08),
+        0 0 40px rgba(255,170,0,.25),
+        inset 0 0 30px rgba(255,170,0,.05);
+    }
+
+    .cs-result-big-score {
+      font-family: var(--font-hud);
+      font-size: 52px;
+      font-weight: 900;
+      color: var(--neon);
+      line-height: 1;
+      text-shadow: 0 0 30px var(--neon-glow);
+    }
+
+    .cs-result-score-ring--danger .cs-result-big-score {
+      color: var(--red);
+      text-shadow: 0 0 30px var(--red-glow);
+    }
+
+    .cs-result-score-ring--medium .cs-result-big-score {
+      color: var(--amber);
+      text-shadow: 0 0 30px rgba(255,170,0,.5);
+    }
+
+    .cs-result-score-sub {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 2px;
+      margin-top: 4px;
+    }
+
+    .cs-result-verdict {
+      font-family: var(--font-hud);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HUD Corner Brackets -->
+  <div class="cs-corner cs-corner--tl"></div>
+  <div class="cs-corner cs-corner--tr"></div>
+  <div class="cs-corner cs-corner--bl"></div>
+  <div class="cs-corner cs-corner--br"></div>
+
+  <div class="cs-page">
+
+    <!-- ── Header ── -->
+    <header class="cs-header">
+      <div class="cs-logo-wrap">
+        <span class="cs-shield-icon">🛡️</span>
+        <h1 class="cs-title">CYBERSHIELD AI</h1>
+      </div>
+      <p class="cs-subtitle">⬡ Threat Analysis Report ⬡</p>
+
+      <nav class="cs-nav">
+        <a class="cs-nav-link" href="/">⌂ Home</a>
+        <a class="cs-nav-link" href="/dashboard">◈ Dashboard</a>
+        <a class="cs-nav-link" href="/history">≡ Scan History</a>
+      </nav>
+    </header>
+
+    <!-- ── Breadcrumb ── -->
+    <div class="cs-breadcrumb">
+      <a href="/">HOME</a>
+      <span class="cs-breadcrumb-sep">▸</span>
+      <span>SCAN REPORT</span>
+    </div>
+
+    <!-- ── Result Hero ── -->
+    <div class="cs-card">
+      <div class="cs-card-label">⬡ Threat Analysis Complete</div>
+      <div class="cs-card-title">SCAN REPORT</div>
+
+      <div class="cs-result-hero">
+        <!-- Score Ring — class driven by risk level -->
+        <div class="cs-result-score-ring
+          {% if result.risk|lower == 'malicious' %}cs-result-score-ring--danger
+          {% elif result.risk|lower != 'safe' %}cs-result-score-ring--medium
+          {% endif %}">
+          <div class="cs-result-big-score">{{ result.score }}</div>
+          <div class="cs-result-score-sub">/ 100</div>
+        </div>
+
+        <!-- Verdict -->
+        <div class="cs-result-verdict
+          {% if result.risk|lower == 'safe' %}
+            " style="color:var(--neon); text-shadow:0 0 20px var(--neon-glow);">
+            ✅ {{ result.risk|upper }}
+          {% elif result.risk|lower == 'malicious' %}
+            " style="color:var(--red); text-shadow:0 0 20px var(--red-glow);">
+            ☠️ {{ result.risk|upper }}
+          {% else %}
+            " style="color:var(--amber); text-shadow:0 0 20px rgba(255,170,0,.5);">
+            ⚠️ {{ result.risk|upper }}
+          {% endif %}
+        </div>
+
+        <!-- Badge -->
+        <div style="margin-top:14px;">
+          <span class="cs-risk-badge
+            {% if result.risk|lower == 'safe' %}cs-risk-badge--safe
+            {% elif result.risk|lower == 'malicious' %}cs-risk-badge--malicious
+            {% else %}cs-risk-badge--medium{% endif %}">
+            RISK SCORE {{ result.score }}/100 &nbsp;·&nbsp; {{ result.risk|upper }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Risk Bar -->
+      <div class="cs-risk-bar-wrap" style="margin-top:28px;">
+        <div style="font-family:var(--font-mono); font-size:10px; letter-spacing:2.5px; color:var(--text-dim); margin-bottom:10px;">THREAT LEVEL INDICATOR</div>
+        <div class="cs-risk-bar-track">
+          <div class="cs-risk-bar-fill
+            {% if result.score < 40 %}cs-risk-bar-fill--low
+            {% elif result.score < 70 %}cs-risk-bar-fill--medium
+            {% else %}cs-risk-bar-fill--high{% endif %}"
+            style="width:{{ result.score }}%">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Target URL ── -->
+    <div class="cs-card">
+      <div class="cs-card-label">⬡ Scanned Target</div>
+      <div class="cs-card-title">TARGET URL</div>
+      <div class="cs-url-display">▶ {{ result.url }}</div>
+
+      <!-- Analysis Message -->
+      <div style="font-family:var(--font-mono); font-size:10px; letter-spacing:2px; color:var(--text-dim); text-transform:uppercase; margin-bottom:10px;">Analysis Output</div>
+      <div class="cs-result-msg">
+        {{ result.message }}
+      </div>
+    </div>
+
+    <!-- ── Actions ── -->
+    <div class="cs-actions">
+      <a class="cs-btn" href="/">⚡ Scan Another URL</a>
+      <a class="cs-btn cs-btn--outline" href="/history">≡ View History</a>
+      <a class="cs-btn cs-btn--outline" href="/dashboard">◈ Dashboard</a>
+    </div>
+
+    <footer class="cs-footer">
+      <span class="cs-hud-tag">⬡ CYBERSHIELD AI &nbsp;·&nbsp; SCAN REPORT &nbsp;·&nbsp; ANALYSIS COMPLETE ⬡</span>
+    </footer>
+
+  </div>
+
+</body>
+</html>

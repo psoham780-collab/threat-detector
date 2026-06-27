@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CyberShield AI — Threat Intelligence Platform</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <!-- HUD Corner Brackets -->
+  <div class="cs-corner cs-corner--tl"></div>
+  <div class="cs-corner cs-corner--tr"></div>
+  <div class="cs-corner cs-corner--bl"></div>
+  <div class="cs-corner cs-corner--br"></div>
+
+  <div class="cs-page">
+
+    <!-- ── Header ── -->
+    <header class="cs-header">
+      <div class="cs-logo-wrap">
+        <span class="cs-shield-icon">🛡️</span>
+        <h1 class="cs-title cs-title-glitch" data-text="CYBERSHIELD AI">CYBERSHIELD AI</h1>
+      </div>
+      <p class="cs-subtitle">⬡ AI-Powered Cyber Threat Intelligence Platform ⬡</p>
+
+      <div class="cs-status-bar">
+        <span class="cs-status-pill"><span class="cs-dot"></span> AI Engine Online</span>
+        <span class="cs-status-pill"><span class="cs-dot"></span> Threat DB Active</span>
+        <span class="cs-status-pill"><span class="cs-dot"></span> Scanner Ready</span>
+      </div>
+
+      <nav class="cs-nav">
+        <a class="cs-nav-link" href="/">⌂ Home</a>
+        <a class="cs-nav-link" href="/dashboard">◈ Dashboard</a>
+        <a class="cs-nav-link" href="/history">≡ Scan History</a>
+      </nav>
+    </header>
+
+    <!-- ── Scanner ── -->
+    <div class="cs-card">
+      <div class="cs-card-label">⬡ Primary Interface</div>
+      <div class="cs-card-title">⚡ URL THREAT SCANNER</div>
+
+      <form class="cs-scan-form" action="/scan" method="POST">
+        <div class="cs-input-wrap">
+          <input
+            class="cs-input"
+            type="text"
+            name="url"
+            placeholder="https://target-url.com — enter for deep scan..."
+            required
+            autocomplete="off"
+            spellcheck="false"
+          >
+        </div>
+        <button class="cs-btn" type="submit">
+          ⚡ SCAN NOW
+        </button>
+      </form>
+
+      <div style="margin-top:18px; font-family:var(--font-mono); font-size:11px; color:var(--text-dim); letter-spacing:1.5px;">
+        ▸ SUPPORTS HTTP / HTTPS / IP ADDRESSES &nbsp;·&nbsp; REAL-TIME AI ANALYSIS &nbsp;·&nbsp; INSTANT RESULTS
+      </div>
+    </div>
+
+    <!-- ── System Status + Quick Nav ── -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+
+      <div class="cs-card">
+        <div class="cs-card-label">⬡ System Status</div>
+        <div class="cs-card-title">SYSTEM HEALTH</div>
+
+        <div class="cs-sys-list">
+          <div class="cs-sys-item">
+            <span>AI Threat Engine</span>
+            <span class="cs-sys-item-status"><span class="cs-dot"></span> ONLINE</span>
+          </div>
+          <div class="cs-sys-item">
+            <span>Threat Database</span>
+            <span class="cs-sys-item-status"><span class="cs-dot"></span> SYNCED</span>
+          </div>
+          <div class="cs-sys-item">
+            <span>ML Classifier</span>
+            <span class="cs-sys-item-status"><span class="cs-dot"></span> ACTIVE</span>
+          </div>
+          <div class="cs-sys-item">
+            <span>URL Scanner</span>
+            <span class="cs-sys-item-status"><span class="cs-dot"></span> READY</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-card">
+        <div class="cs-card-label">⬡ Navigation</div>
+        <div class="cs-card-title">CONTROL PANEL</div>
+
+        <div class="cs-sys-list">
+          <a href="/dashboard" class="cs-sys-item" style="text-decoration:none; cursor:pointer; justify-content:flex-start; gap:12px;">
+            <span style="font-size:18px;">◈</span>
+            <span>Analytics Dashboard</span>
+          </a>
+          <a href="/history" class="cs-sys-item" style="text-decoration:none; cursor:pointer; justify-content:flex-start; gap:12px;">
+            <span style="font-size:18px;">≡</span>
+            <span>Full Scan History</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Footer ── -->
+    <footer class="cs-footer">
+      <span class="cs-hud-tag">⬡ CYBERSHIELD AI &nbsp;·&nbsp; THREAT INTELLIGENCE PLATFORM &nbsp;·&nbsp; ALL SYSTEMS NOMINAL ⬡</span>
+    </footer>
+
+  </div>
+
+</body>
+</html>

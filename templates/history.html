@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CyberShield AI — Scan History</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <!-- HUD Corner Brackets -->
+  <div class="cs-corner cs-corner--tl"></div>
+  <div class="cs-corner cs-corner--tr"></div>
+  <div class="cs-corner cs-corner--bl"></div>
+  <div class="cs-corner cs-corner--br"></div>
+
+  <div class="cs-page">
+
+    <!-- ── Header ── -->
+    <header class="cs-header">
+      <div class="cs-logo-wrap">
+        <span class="cs-shield-icon">🛡️</span>
+        <h1 class="cs-title">CYBERSHIELD AI</h1>
+      </div>
+      <p class="cs-subtitle">⬡ Scan History Log ⬡</p>
+
+      <nav class="cs-nav">
+        <a class="cs-nav-link" href="/">⌂ Home</a>
+        <a class="cs-nav-link" href="/dashboard">◈ Dashboard</a>
+        <a class="cs-nav-link" href="/history">≡ Scan History</a>
+      </nav>
+    </header>
+
+    <!-- ── Breadcrumb ── -->
+    <div class="cs-breadcrumb">
+      <a href="/">HOME</a>
+      <span class="cs-breadcrumb-sep">▸</span>
+      <span>SCAN HISTORY</span>
+    </div>
+
+    <!-- ── History Table ── -->
+    <div class="cs-card">
+      <div class="cs-card-label">⬡ Intelligence Log</div>
+      <div class="cs-card-title">≡ FULL SCAN HISTORY</div>
+
+      {% if scans %}
+      <div class="cs-table-wrap">
+        <table class="cs-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Target URL</th>
+              <th>Risk Level</th>
+              <th>Score</th>
+              <th>Timestamp</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for scan in scans %}
+            <tr>
+              <td style="color:var(--text-dim); font-size:11px; opacity:.5;">
+                {{ loop.index }}
+              </td>
+
+              <td class="cs-url-cell" title="{{ scan.url }}">
+                {{ scan.url }}
+              </td>
+
+              <td>
+                <span class="cs-tag
+                  {% if scan.risk|lower == 'safe' %}cs-tag--safe
+                  {% elif scan.risk|lower == 'malicious' %}cs-tag--malicious
+                  {% else %}cs-tag--medium{% endif %}">
+                  {{ scan.risk }}
+                </span>
+              </td>
+
+              <td class="cs-score-cell
+                {% if scan.score < 40 %}cs-score-cell--low
+                {% elif scan.score < 70 %}cs-score-cell--mid
+                {% else %}cs-score-cell--high{% endif %}">
+                {{ scan.score }}<span style="opacity:.4;">/100</span>
+              </td>
+
+              <td style="color:var(--text-dim); white-space:nowrap; font-size:12px;">
+                {{ scan.date }}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      {% else %}
+      <div class="cs-empty">
+        <div class="cs-empty-icon">📭</div>
+        <div class="cs-empty-text">NO SCAN RECORDS FOUND &nbsp;·&nbsp; RUN YOUR FIRST SCAN TO POPULATE THE LOG</div>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- ── Actions ── -->
+    <div class="cs-actions">
+      <a class="cs-btn cs-btn--outline" href="/dashboard">◈ Dashboard</a>
+      <a class="cs-btn" href="/">⚡ New Scan</a>
+    </div>
+
+    <footer class="cs-footer">
+      <span class="cs-hud-tag">⬡ CYBERSHIELD AI &nbsp;·&nbsp; SCAN HISTORY &nbsp;·&nbsp; INTELLIGENCE LOG ⬡</span>
+    </footer>
+
+  </div>
+
+</body>
+</html>
