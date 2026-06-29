@@ -132,17 +132,10 @@
         </div>
 
         <!-- Verdict -->
-        <div class="cs-result-verdict
-          {% if result.risk|lower == 'safe' %}
-            " style="color:var(--neon); text-shadow:0 0 20px var(--neon-glow);">
-            ✅ {{ result.risk|upper }}
-          {% elif result.risk|lower == 'malicious' %}
-            " style="color:var(--red); text-shadow:0 0 20px var(--red-glow);">
-            ☠️ {{ result.risk|upper }}
-          {% else %}
-            " style="color:var(--amber); text-shadow:0 0 20px rgba(255,170,0,.5);">
-            ⚠️ {{ result.risk|upper }}
-          {% endif %}
+        {% set verdict_icon = '✅' if result.risk|lower == 'safe' else '☠️' if result.risk|lower == 'malicious' else '⚠️' %}
+        {% set verdict_style = 'color:var(--neon); text-shadow:0 0 20px var(--neon-glow);' if result.risk|lower == 'safe' else 'color:var(--red); text-shadow:0 0 20px var(--red-glow);' if result.risk|lower == 'malicious' else 'color:var(--amber); text-shadow:0 0 20px rgba(255,170,0,.5);' %}
+        <div class="cs-result-verdict" style="{{ verdict_style }}">
+          {{ verdict_icon }} {{ result.risk|upper }}
         </div>
 
         <!-- Badge -->

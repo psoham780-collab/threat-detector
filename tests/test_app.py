@@ -15,3 +15,12 @@ def client():
 def test_home_page_loads(client):
     response = client.get("/")
     assert response.status_code == 200
+
+
+def test_scan_page_renders(client):
+    response = client.post(
+        "/scan",
+        data={"url": "https://example.com"},
+        follow_redirects=True,
+    )
+    assert response.status_code == 200
