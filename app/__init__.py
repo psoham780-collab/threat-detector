@@ -1,8 +1,22 @@
+import os
+import tempfile
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 
 db = SQLAlchemy()
+
+
+def _get_storage_dir():
+    override = os.environ.get("CYBERSHIELD_STORAGE_DIR")
+    if override:
+        storage_dir = os.path.abspath(override)
+    else:
+        storage_dir = os.path.join(tempfile.gettempdir(), "cybershield-ai")
+
+    os.makedirs(storage_dir, exist_ok=True)
+    return storage_dir
 
 
 def create_app():
@@ -16,7 +30,12 @@ def create_app():
 
     app.config["SECRET_KEY"] = "dev-key-12345"
 
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///cybershield.db"
+    storage_dir = _get_storage_dir()
+    app.instance_path = storage_dir
+    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
+        "DATABASE_URL",
+        f"sqlite:///{os.path.join(storage_dir, 'cybershield.db')}"
+    )
 
 
     db.init_app(app)

@@ -17,6 +17,13 @@ def test_home_page_loads(client):
     assert response.status_code == 200
 
 
+def test_app_uses_writable_storage():
+    app = create_app()
+    assert app.instance_path
+    assert app.instance_path
+    assert app.instance_path.endswith("cybershield-ai") or app.instance_path.endswith("cybershield-ai")
+
+
 def test_scan_page_renders(client):
     response = client.post(
         "/scan",
