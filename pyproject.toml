@@ -3,7 +3,7 @@ name = "cybershield-ai"
 version = "0.1.0"
 description = "Threat detector web app"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 dependencies = [
     "Flask==3.0.3",
     "Flask-SQLAlchemy==3.1.1",
